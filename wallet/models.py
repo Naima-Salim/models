@@ -1,123 +1,121 @@
 
-from lzma import MODE_FAST
+from contextlib import nullcontext
+from datetime import datetime
 from django.db import models
 
 # Create your models here.
 class Customer(models.Model):
-    first_name = models.CharField(max_length=20)
-    last_name  = models.CharField(max_length=20)
+    first_name = models.CharField(max_length=20,null=True)
+    last_name  = models.CharField(max_length=20,null=True)
     address = models.TextField()
-    Phone_number=models.CharField(max_length=20)
-    email = models.CharField(max_length=15)
-    gender = models.CharField(max_length=10)
+    phone_number=models.CharField(max_length=20,null=True)
+    email = models.CharField(max_length=15,null=True)
+    gender = models.CharField(max_length=10,null=True)
     age = models.PositiveSmallIntegerField()
-    password=models.CharField(max_length=20)
-    id_number=models.IntegerField()
-    nationality=models.CharField(max_length=20)
-    date_of_registration=models.DateTimeField()
-    profile_picture=models.FileField()
+    password=models.CharField(max_length=20,null=True)
+    id_number=models.IntegerField(null=True)
+    nationality=models.CharField(max_length=20,null=True)
+    date_of_registration=models.DateTimeField(default=datetime.now)
+    profile_picture=models.ImageField(null=True)
 
 class Wallet(models.Model):
     balance = models.IntegerField()
-    customer = models.ForeignKey('customer',on_delete=models.CASCADE,related_name='Wallet_customer')
+    customer = models.ForeignKey(Customer,on_delete=models.CASCADE,related_name='wallet_customer',null=True)
     amount = models.IntegerField()
-    time = models.DateTimeField()
-    status = models.CharField(max_length=20)
-    currency = models.ForeignKey('currency',on_delete=models.CASCADE,related_name='Wallet_currency')
-    pin = models.IntegerField()
+    time = models.DateTimeField(default=datetime.now)
+    status = models.CharField(max_length=20,null=True)
+    currency = models.ForeignKey('Currency',on_delete=models.CASCADE,related_name='wallet_currency',null=True)
+    pin = models.IntegerField(null=True)
 
 class Account(models.Model):
     account_number = models.IntegerField()
-    account_type = models.CharField(max_length=20)
+    account_type = models.CharField(max_length=20,null=True)
     account_balance = models.IntegerField()
-    account_name = models.CharField(max_length=20)
-    wallet = models.ForeignKey('wallet',on_delete=models.CASCADE,related_name='Account_wallet')
-    account = models.ForeignKey('account',on_delete=models.CASCADE,related_name='Account_account')
+    account_name = models.CharField(max_length=20,null=True)
+    wallet = models.ForeignKey(Wallet,on_delete=models.CASCADE,related_name='account_wallet',null=True)
 
 class Transaction(models.Model):
-    transaction_ref = models.CharField(max_length=20)
-    wallet = models.ForeignKey('wallet',on_delete=models.CASCADE,related_name='Transaction_wallet')
     transaction_amount = models.IntegerField()
-    transaction_number = models.CharField(max_length=20)
-    transaction_name = models.CharField(max_length=20)
-    transaction_type = models.CharField(max_length=20)
+    transaction_number = models.CharField(max_length=20,null=True)
+    transaction_type = models.CharField(max_length=20,null=True)
     transaction_charge = models.IntegerField()
-    date_and_time = models.DateTimeField()
-    destination_account = models.ManyToManyRel(Customer,on_delete=models.CASCADE,related_name='Transaction_ destination_account')
-    receipt = models.OneToOneRel(Customer,on_delete=models.CASCADE,related_name='Transaction_receipt')
-    recipient = models.ForeignKey('recipient',on_delete=models.CASCADE,related_name='Transaction_recipient')
-    origin_account = models.ForeignKey('origin_account ',on_delete=models.CASCADE,related_name='Transaction_origin_account ')
+    date_and_time = models.DateTimeField(default=datetime.now)
+    destination_account = models.ForeignKey(to=Account,on_delete=models.CASCADE,related_name='destination_account',null=True)
+    reciept = models.CharField(max_length=20,null=True)
+    wallet = models.ForeignKey(Wallet,on_delete=models.CASCADE,related_name='transaction_wallet',null=True)
+    origin_account = models.ForeignKey(Account,on_delete=models.CASCADE,related_name='origin_account',null=True)
 
 class Card(models.Model):
     card_number = models.IntegerField()
-    card_name = models.CharField(max_length=20)
-    date_issued = models.DateTimeField()
+    card_name = models.CharField(max_length=20,null=True)
+    date_issued = models.DateTimeField(default=datetime.now)
     CARD_CHOICES=(
         ('C','Credit Card'),
         ('D','Debit Card'),
     )
-    card_type = models.CharField(max_length=20,choices=CARD_CHOICES)
+    card_type = models.CharField(max_length=20,choices=CARD_CHOICES,null=True)
     expiry_date = models.IntegerField()
     security_code = models.IntegerField()
-    wallet = models.ManyToOneRel(Customer,on_delete=models.CASCADE,related_name='Card_wallet')
-    account = models.ManyToManyRel(Customer,on_delete=models.CASCADE,related_name='Card_account')
+    wallet = models.ForeignKey(Wallet,on_delete=models.CASCADE,related_name='card_wallet',null=True)
+    account = models.ForeignKey(Account,on_delete=models.CASCADE,related_name='card_account',null=True)
     ISSUER_CHOICES=(
         ('v','Visa Card'),
         ('M','Master Card'),
     )
-    issuer = models.CharField(max_length=20,choices=ISSUER_CHOICES)
+    issuer = models.CharField(max_length=20,choices=ISSUER_CHOICES,null=True)
+
+class Currency(models.Model):
+    country = models.CharField(max_length=30,null=True)
+    symbol = models.CharField(max_length=5,null=True)
+    amount = models.IntegerField()
 
 class Thirdparty(models.Model):
-    name = models.CharField(max_length=20)
-    account_number = models.IntegerField()
-    location = models.CharField(max_length=20)
-    type = models.CharField(max_length=20)
+    transaction = models.ForeignKey(Transaction,on_delete=models.CASCADE,related_name='third_transaction',null=True)
+    name = models.CharField(max_length=20,null=True)
+    account_number = models.IntegerField(null=True)
+    location = models.CharField(max_length=20,null=True)
     amount = models.IntegerField()
-    currency = models.ForeignKey('currency',on_delete=models.CASCADE,related_name='Thirdparty_currency')
+    currency = models.ForeignKey(Currency,on_delete=models.CASCADE,related_name='thirdparty_currency',null=True)
 
 class Notification(models.Model):
     MESSAGE_CHOICES=(
         ('E','Email'),
         ('P','Push'),
     )
-    message = models.CharField(max_length=20,choices=MESSAGE_CHOICES)
-    title = models.CharField(max_length=20)
-    recipient = models.ForeignKey('recipient',on_delete=models.CASCADE,related_name='Notification_recipient')
-    date_time = models.DateTimeField()
+    message = models.CharField(max_length=20,choices=MESSAGE_CHOICES,null=True)
+    title = models.CharField(max_length=20,null=True)
+    recipient = models.ForeignKey(Customer,on_delete=models.CASCADE,related_name='notification_recipient',null=True)
+    date_time = models.DateTimeField(default=datetime.now)
     STATUS_CHOICES=(
         ('R','Read'),
         ('U','Unread'),
     )
-    status = models.CharField(max_length=20,choices=STATUS_CHOICES)
+    status = models.CharField(max_length=20,choices=STATUS_CHOICES,null=True)
 
 class Receipt(models.Model):
-    receipt_type = models.CharField(max_length=20)
-    date_time = models.DateTimeField()
-    bill_number = models.CharField(max_length=20)
+    receipt_type = models.CharField(max_length=20,null=True)
+    date = models.DateTimeField(default=datetime.now)
+    bill_number = models.CharField(max_length=20,null=True)
     amount = models.IntegerField()
-    account = models.ManyToManyField(Customer,on_delete=models.CASCADE,related_name='Card_account')
+    customer = models.ForeignKey(Customer,on_delete=models.CASCADE,related_name='receipt_customer',null=True)
     receipt_file = models.FileField()
 
 class Loan(models.Model):
-    loan_type = models.CharField(max_length=20)
+    loan_type = models.CharField(max_length=20,null=True)
     amount = models.IntegerField()
-    transaction = models.ManyToOneRel(Customer,on_delete=models.CASCADE,related_name='Loan_wallet')
     interest_rate = models.IntegerField()
-    wallet = models.IntegerField()
+    wallet = models.ForeignKey(Wallet,on_delete=models.CASCADE,related_name='loan_wallet',null=True)
     loan_balance = models.IntegerField()
-    # guarantor = models.CharField(max_length=20)
+    guarantor = models.CharField(max_length=20,null=True)
     payment_due_date = models.DurationField()
 
 class Reward(models.Model):
-    name = models.CharField(max_length=20)
+    transaction = models.ForeignKey(Transaction,on_delete=models.CASCADE,related_name='reward_transaction',null=True)
     customer_id = models.IntegerField()
-    gender = models.CharField(max_length=20)
-    message = models.CharField(max_length=50)
-    date_time = models.DateTimeField()
-    points = models.IntegerField()
-    third_party = models.ForeignKey('third_party',on_delete=models.CASCADE,related_name='Reward_third_party') 
-    recipient = models.ForeignKey('recipient',on_delete=models.CASCADE,related_name='Reward_recipient') 
-    points = models.IntegerField()
+    message = models.CharField(max_length=50,null=True)
+    date_time = models.DateTimeField(default=datetime.now)
+    points = models.IntegerField() 
+    recipient = models.ForeignKey(Customer,on_delete=models.CASCADE,related_name='reward_recipient',null=True) 
 
 
 

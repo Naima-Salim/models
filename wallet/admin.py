@@ -11,58 +11,64 @@ from .models import Notification
 from .models import Receipt
 from .models import Loan
 from .models import Reward
+from .models import Currency
 
 
-class CustomerADMIN(admin.ModelAdmin):
+class CustomerAdmin(admin.ModelAdmin):
     list_display = ('first_name','last_name','age','email',)
-    search_fields = ('first_name','last_name',)
+    search_fields =('first_name','last_name','age','email',)
 
-class WalletADMIN(admin.ModelAdmin):
-    list_display = ('balance','time','amount',)
-    search_fields = ('time','amount',)
+class WalletAdmin(admin.ModelAdmin):
+    list_display = ('balance',Customer,'amount',)
+    search_fields =  ('balance',Customer,'amount',)
 
-class AccountADMIN(admin.ModelAdmin):
+class AccountAdmin(admin.ModelAdmin):
     list_display = ('account_name','account_balance','account_number',)
-    search_fields = ('number','balance',)
+    search_fields =  ('account_name','account_balance','account_number',)
 
-class TransactionADMIN(admin.ModelAdmin):
-    list_display = ('transaction_name','transaction_ref','date_and_time',)
-    search_fields = ('transaction_ref','transaction_name',)  
+class TransactionAdmin(admin.ModelAdmin):
+    list_display = ('transaction_amount','transaction_number','transaction_type',)
+    search_fields = ('transaction_amount','transaction_number','transaction_type',) 
 
-class CardADMIN(admin.ModelAdmin):
-    list_display = ('card_name','security_code','card_number',)
-    search_fields = ('security_code','card_number',)
+class CardAdmin(admin.ModelAdmin):
+    list_display = ('card_name','date_issued','card_number',)
+    search_fields =('card_name','date_issued','card_number',)
 
-class ThirdpartyADMIN(admin.ModelAdmin):
-    list_display = ('name','account','location',)
-    search_fields = ('name','account',)
+class ThirdpartyAdmin(admin.ModelAdmin):
+    list_display = ('name','account_number','location',)
+    search_fields =  ('name','account_number','location',)
 
-class NotificationADMIN(admin.ModelAdmin):
+class NotificationAdmin(admin.ModelAdmin):
     list_display = ('message','date_time','title',)
-    search_fields = ('message','date_time',)
+    search_fields =('message','date_time','title',)
 
-class ReceiptADMIN(admin.ModelAdmin):
-    list_display = ('bill_number','amount','date_time',)
-    search_fields = ('bill_number','amount',)
+class ReceiptAdmin(admin.ModelAdmin):
+    list_display = ('bill_number','amount','date',)
+    search_fields = ('bill_number','amount','date',)
 
-class LoanADMIN(admin.ModelAdmin):
-    list_display = ('guarantor','amount','loan_type',)
-    search_fields = ('guarantor','amount',)
+class LoanAdmin(admin.ModelAdmin):
+    list_display = (Customer,'amount','loan_type',)
+    search_fields = (Customer,'amount','loan_type',)
 
-class RewardADMIN(admin.ModelAdmin):
-    list_display = ('customer_id','message','gender',)
-    search_fields = ('customer_id','message',)    
+class RewardAdmin(admin.ModelAdmin):
+    list_display = ('customer_id','message',Transaction,)
+    search_fields =('customer_id','message',Transaction,)    
 
-admin.site.register(Customer,CustomerADMIN)
-admin.site.register(Wallet, WalletADMIN)
-admin.site.register(Account, AccountADMIN)
-admin.site.register(Transaction, TransactionADMIN)
-admin.site.register(Card, CardADMIN)
-admin.site.register(Thirdparty, ThirdpartyADMIN)
-admin.site.register(Notification, NotificationADMIN)
-admin.site.register(Receipt, ReceiptADMIN)
-admin.site.register(Loan, LoanADMIN)
-admin.site.register(Reward, RewardADMIN)
+class CurrencyAdmin(admin.ModelAdmin):
+    list_display = ('country','symbol','amount',)
+    search_fields = ('country','symbol','amount',) 
+
+admin.site.register(Customer,CustomerAdmin)
+admin.site.register(Wallet, WalletAdmin)
+admin.site.register(Account, AccountAdmin)
+admin.site.register(Transaction, TransactionAdmin)
+admin.site.register(Card, CardAdmin)
+admin.site.register(Thirdparty, ThirdpartyAdmin)
+admin.site.register(Notification, NotificationAdmin)
+admin.site.register(Receipt, ReceiptAdmin)
+admin.site.register(Loan, LoanAdmin)
+admin.site.register(Reward, RewardAdmin)
+admin.site.register(Currency, CurrencyAdmin)
 
 
 
