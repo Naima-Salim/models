@@ -39,8 +39,8 @@ class ThirdpartyAdmin(admin.ModelAdmin):
     search_fields =  ('name','account_number','location',)
 
 class NotificationAdmin(admin.ModelAdmin):
-    list_display = ('message','date_time','title',)
-    search_fields =('message','date_time','title',)
+    list_display = ('message','date_time',)
+    search_fields =('message','date_time',)
 
 class ReceiptAdmin(admin.ModelAdmin):
     list_display = ('bill_number','amount','date',)
