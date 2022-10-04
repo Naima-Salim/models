@@ -51,8 +51,6 @@ def edit_customer(request,id):
         form =forms.CustomerRegistrationForm(instance=customer)
         return render(request,"wallet/edit_customer.html",{"form":form})
        
-
-
 #Wallet
 def register_wallet(request):
     if request.method =="POST":
@@ -68,6 +66,22 @@ def list_wallets(request):
     wallets=Wallet.objects.all()
     return render(request, "wallet/wallets_list.html",
     {"wallets":wallets})    
+
+def customer_profile(request,id):
+    customer = models.Customer.objects.get(id = id)
+    return render(request,"wallet/customer_profile.html",{"customer":customer})
+
+def edit_customer(request,id):
+    customer = models.Customer.objects.get(id=id)
+    if request.method == "POST":
+        form = forms.CustomerRegistrationForm(request.POST,instance=customer)
+
+    if form.is_valid():
+            form.save()
+            return redirect("customer_profile",id=customer.id)
+    else:
+        form =forms.CustomerRegistrationForm(instance=customer)
+        return render(request,"wallet/edit_customer.html",{"form":form})
 
 #account
 def register_account(request):
@@ -85,6 +99,22 @@ def list_accounts(request):
     return render(request, "wallet/accounts_list.html",
     {"accounts":accounts})     
 
+def customer_profile(request,id):
+    customer = models.Customer.objects.get(id = id)
+    return render(request,"wallet/customer_profile.html",{"customer":customer})
+
+def edit_customer(request,id):
+    customer = models.Customer.objects.get(id=id)
+    if request.method == "POST":
+        form = forms.CustomerRegistrationForm(request.POST,instance=customer)
+
+    if form.is_valid():
+            form.save()
+            return redirect("customer_profile",id=customer.id)
+    else:
+        form =forms.CustomerRegistrationForm(instance=customer)
+        return render(request,"wallet/edit_customer.html",{"form":form})
+
 #transaction
 def register_transaction(request):
     if request.method =="POST":
@@ -101,6 +131,22 @@ def list_transactions(request):
     return render(request, "wallet/transactions_list.html",
     {"transactions":transactions}) 
 
+def customer_profile(request,id):
+    customer = models.Customer.objects.get(id = id)
+    return render(request,"wallet/customer_profile.html",{"customer":customer})
+
+def edit_customer(request,id):
+    customer = models.Customer.objects.get(id=id)
+    if request.method == "POST":
+        form = forms.CustomerRegistrationForm(request.POST,instance=customer)
+
+    if form.is_valid():
+            form.save()
+            return redirect("customer_profile",id=customer.id)
+    else:
+        form =forms.CustomerRegistrationForm(instance=customer)
+        return render(request,"wallet/edit_customer.html",{"form":form})
+
 #cards
 def register_card(request):
     if request.method =="POST":   
@@ -116,6 +162,22 @@ def list_cards(request):
     cards=Card.objects.all()
     return render(request, "wallet/cards_list.html",
     {"cards":cards}) 
+
+def customer_profile(request,id):
+    customer = models.Customer.objects.get(id = id)
+    return render(request,"wallet/customer_profile.html",{"customer":customer})
+
+def edit_customer(request,id):
+    customer = models.Customer.objects.get(id=id)
+    if request.method == "POST":
+        form = forms.CustomerRegistrationForm(request.POST,instance=customer)
+
+    if form.is_valid():
+            form.save()
+            return redirect("customer_profile",id=customer.id)
+    else:
+        form =forms.CustomerRegistrationForm(instance=customer)
+        return render(request,"wallet/edit_customer.html",{"form":form})
 
 #currency
 def register_currency(request):
@@ -180,6 +242,22 @@ def list_receipts(request):
     receipts=Receipt.objects.all()
     return render(request, "wallet/receipts_list.html",
     {"receipts":receipts})     
+
+def customer_profile(request,id):
+    customer = models.Customer.objects.get(id = id)
+    return render(request,"wallet/customer_profile.html",{"customer":customer})
+
+def edit_customer(request,id):
+    customer = models.Customer.objects.get(id=id)
+    if request.method == "POST":
+        form = forms.CustomerRegistrationForm(request.POST,instance=customer)
+
+    if form.is_valid():
+            form.save()
+            return redirect("customer_profile",id=customer.id)
+    else:
+        form =forms.CustomerRegistrationForm(instance=customer)
+        return render(request,"wallet/edit_customer.html",{"form":form})
 
 #loan
 def register_loan(request):
