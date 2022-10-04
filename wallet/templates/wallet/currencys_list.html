@@ -8,18 +8,18 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
-    <div class="card" style="width: 30rem; background-color: rgb(204, 146, 22); padding: 4%; margin-left: 26%; margin-top: 3%; margin-top: 16%;">
-    <table>
-        <th>
-            <td>Country</td>
-            <td>Symbol</td>
-            <td>Account</td>
-        </th>
+    <div class="card" style="width: 30rem; background-color: rgb(204, 146, 22); padding: 4%; margin-left: 26%; margin-top: 3%; margin-top: 7%;">
+    <table class="table" style="border: 1px solid black; border-collapse: collapse; width: 15rem; margin-left: 17%;">
+        <tr>
+            <th class="table" style="border: 1px solid black; border-collapse: collapse; width: 15rem; margin-left: 17%;">Country</th>
+            <th class="table" style="border: 1px solid black; border-collapse: collapse; width: 15rem; margin-left: 17%;">Symbol</th>
+            <th class="table" style="border: 1px solid black; border-collapse: collapse; width: 15rem; margin-left: 17%;">Account</th>
+        </tr>
         {%for currency in currencys%}
         <tr>
-            <td>{{currency.country}}</td>
-            <td>{{currency.symbol}}</td>
-            <td>{{currency.amount}}</td>
+            <td class="table" style="border: 1px solid black; border-collapse: collapse; width: 15rem; margin-left: 17%;">{{currency.country}}</td>
+            <td class="table" style="border: 1px solid black; border-collapse: collapse; width: 15rem; margin-left: 17%;">{{currency.symbol}}</td>
+            <td class="table" style="border: 1px solid black; border-collapse: collapse; width: 15rem; margin-left: 17%;">{{currency.amount}}</td>
         </tr>
         {% endfor %}
     </table>

@@ -15,8 +15,8 @@ class Customer(models.Model):
     nationality=models.CharField(max_length=20,null=True)
     # date_of_registration=models.DateTimeField()
     # profile_picture=models.ImageField(null=True)
-    def __str__(self):
-        return str(self.form)
+    # def __str__(self):
+    #     return str(self.form)
 
 
 class Wallet(models.Model):
@@ -36,10 +36,9 @@ class Account(models.Model):
     account_balance = models.IntegerField()
     account_name = models.CharField(max_length=20,null=True)
     wallet = models.ForeignKey(Wallet,on_delete=models.CASCADE,related_name='account_wallet',null=True)
-    def __str__(self):
-        return str(self.form)
+    # def __str__(self):
+    #     return str(self.form)
 
-#has some errors
 class Transaction(models.Model):
     transaction_amount = models.IntegerField()
     transaction_number = models.CharField(max_length=20,null=True)
@@ -50,8 +49,7 @@ class Transaction(models.Model):
     reciept = models.CharField(max_length=20,null=True)
     wallet = models.ForeignKey(Wallet,on_delete=models.CASCADE,related_name='transaction_wallet',null=True)
     origin_account = models.ForeignKey(Account,on_delete=models.CASCADE,related_name='origin_account',null=True)
-    def __str__(self):
-        return str(self.form)
+    
 
 class Card(models.Model):
     card_number = models.IntegerField()
@@ -130,7 +128,6 @@ class Loan(models.Model):
     def __str__(self):
         return str(self.form)
 
-#Has some errors
 class Reward(models.Model):
     transaction = models.ForeignKey(Transaction,on_delete=models.CASCADE,related_name='reward_transaction',null=True)
     customer_id = models.IntegerField()
@@ -138,8 +135,8 @@ class Reward(models.Model):
     date_time = models.DateTimeField(default=datetime.now)
     points = models.IntegerField() 
     recipient = models.ForeignKey(Customer,on_delete=models.CASCADE,related_name='reward_recipient',null=True) 
-    def __str__(self):
-        return str(self.form)
+    # def __str__(self):
+    #     return str(self.form)
 
 
 

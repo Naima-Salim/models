@@ -1,8 +1,10 @@
 #the purpose of view.py is to handle http request
+from urllib import request
 from django.shortcuts import render
 from wallet.models import Account, Card, Currency, Loan, Notification, Receipt, Reward, Thirdparty, Transaction, Wallet
 from wallet.models import Customer
 from . import forms
+
 from .forms import WalletRegistrationForm
 from .forms import CustomerRegistrationForm
 from .forms import AccountRegistrationForm
@@ -14,6 +16,7 @@ from .forms import NotificationRegistrationForm
 from .forms import ReceiptRegistrationForm
 from .forms import LoanRegistrationForm
 from .forms import RewardRegistrationForm
+import wallet
 #learn more on what is contained inside http request
 
 #customer
@@ -31,6 +34,24 @@ def list_customers(request):
     customers=Customer.objects.all()
     return render(request, "wallet/customers_list.html",
     {"customers":customers})
+
+def customer_profile(request,id):
+    customer = models.Customer.objects.get(id = id)
+    return render(request,"wallet/customer_profile.html",{"customer":customer})
+
+def edit_customer(request,id):
+    customer = models.Customer.objects.get(id=id)
+    if request.method == "POST":
+        form = forms.CustomerRegistrationForm(request.POST,instance=customer)
+
+    if form.is_valid():
+            form.save()
+            return redirect("customer_profile",id=customer.id)
+    else:
+        form =forms.CustomerRegistrationForm(instance=customer)
+        return render(request,"wallet/edit_customer.html",{"form":form})
+       
+
 
 #Wallet
 def register_wallet(request):

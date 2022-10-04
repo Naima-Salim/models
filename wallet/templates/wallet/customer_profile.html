@@ -1,0 +1,6 @@
+<h1>{{customer.first_name}}{{customer.last_name}}</h1>
+<img src = "{{customer.profile_picture.url}}" alt="Profile picture"/>
+<h2>{{customer.age}}</h2>
+<h3>{{customer.email}}</h3>
+<h4>{{customer.phone_number}}</h4>
+<a href="{% url 'edit_customer' id=customer.id %}"> Edit </a>
