@@ -76,8 +76,8 @@ class Currency(models.Model):
     country = models.CharField(max_length=30,null=True)
     symbol = models.CharField(max_length=5,null=True)
     amount = models.IntegerField()
-    def __str__(self):
-        return str(self.form)
+    # def __str__(self):
+    #     return str(self.form)
 
 class Thirdparty(models.Model):
     transaction = models.ForeignKey(Transaction,on_delete=models.CASCADE,related_name='third_transaction',null=True)

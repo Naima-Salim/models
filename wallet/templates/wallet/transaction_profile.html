@@ -1,0 +1,5 @@
+<h1>{{transaction. bill_number}}{{transaction.transaction_type}}</h1>
+<h2>{{transaction.amount}}</h2>
+<h3>{{transaction.customer}}</h3>
+<h4>{{transaction.date}}</h4>
+<a href="{% url 'edit_receipt' id=receipt.id %}"> Edit </a>

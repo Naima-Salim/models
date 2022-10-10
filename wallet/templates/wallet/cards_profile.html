@@ -1,0 +1,5 @@
+<h1>{{cards.card_number}}{{cards.card_name}}</h1>
+<h2>{{cards.card_type}}</h2>
+<h3>{{cards.expiry_date}}</h3>
+<h4>{{cards.wallet}}</h4>
+<a href="{% url 'edit_cards' id=cards.id %}"> Edit </a>

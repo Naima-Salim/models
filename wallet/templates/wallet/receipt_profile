@@ -1,6 +1,0 @@
-<h1>{{receipt. bill_number}}{{receipt.receipt_type}}</h1>
-<!-- <img src = "{{customer.profile_picture.url}}" alt="Profile picture"/> -->
-<h2>{{receipt.amount}}</h2>
-<h3>{{receipt.customer}}</h3>
-<h4>{{receipt.date}}</h4>
-<a href="{% url 'edit_receipt' id=receipt.id %}"> Edit </a>

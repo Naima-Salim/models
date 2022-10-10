@@ -1,0 +1,5 @@
+<h1>{{loan.loan_type}}{{loan.loan_balance}}</h1>
+<h2>{{loan.guarantor}}</h2>
+<h3>{{loan.payment_due_date}}</h3>
+<h4>{{loan.interest_rate}}</h4>
+<a href="{% url 'edit_loan' id=loan.id %}"> Edit </a>

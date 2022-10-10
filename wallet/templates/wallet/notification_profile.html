@@ -1,0 +1,4 @@
+<h1>{{notification. message}}{{notification.recipient}}</h1>
+<h2>{{notification.date_time}}</h2>
+<h3>{{notification.status}}</h3>
+<a href="{% url 'edit_notification' id=notification.id %}"> Edit </a>
